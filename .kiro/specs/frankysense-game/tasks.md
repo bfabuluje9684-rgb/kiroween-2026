@@ -6,7 +6,7 @@ Implement the FrankySense Halloween quiz game as a Python/Flask backend paired w
 
 ## Tasks
 
-- [ ] 1. Project scaffolding and configuration
+- [x] 1. Project scaffolding and configuration
   - Create the `backend/` directory and add `backend/config.py` that reads `AI_API_KEY`, `AI_API_URL`, and `AI_MODEL` from a `.env` file using `python-dotenv`; expose `AI_API_KEY`, `AI_API_URL`, `AI_MODEL`, and a `BANK_ONLY_MODE` flag (True when the key is absent); log a warning to stderr when the key is missing; add `requirements.txt` listing `flask`, `python-dotenv`, `requests`, `gunicorn`, `hypothesis`, `pytest`, `pytest-flask`; Create `backend/.env.example` with placeholder entries only (no real values):
     ```
     AI_API_KEY=your_api_key_here

@@ -1,0 +1,15 @@
+# Environment files — never commit real credentials
+.env
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Node dependencies
+node_modules/
+
+# Frontend production build output
+frontend/dist/
+
+# Backend static assets (copied from frontend/dist at build time)
+backend/static/
