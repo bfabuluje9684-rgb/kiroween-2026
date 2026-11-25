@@ -12,6 +12,18 @@
         "chatSessionId": "sess_c468a8e8-b64d-4490-9116-6f81f19c821e",
         "timestamp": 1795636778851
       }
+    ],
+    "2.1 Write `backend/question_bank.json` with at least 20 hand-written questions: at least 3 per topic (`variables`, `data_types`, `conditions`, `loops`, `functions`, `lists`); each entry must have keys `text`, `options` (array of 4 strings), `correct_index` (integer 0–3), `feedback` (non-empty string), and `topic`": [
+      {
+        "executionId": "268a4d9d-c345-4463-83c6-c14d76d90585",
+        "chatSessionId": "sess_8728adba-639f-4d92-8351-a20085a78fd3",
+        "timestamp": 1795637095081
+      },
+      {
+        "executionId": "268a4d9d-c345-4463-83c6-c14d76d90585",
+        "chatSessionId": "sess_8728adba-639f-4d92-8351-a20085a78fd3",
+        "timestamp": 1795637180916
+      }
     ]
   }
 }

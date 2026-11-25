@@ -1,0 +1,180 @@
+[
+  {
+    "topic": "variables",
+    "text": "Which of the following is a valid Python variable name?",
+    "options": ["2score", "my_score", "my-score", "my score"],
+    "correct_index": 1,
+    "feedback": "Variable names must start with a letter or underscore and cannot contain spaces or hyphens. `my_score` follows all these rules."
+  },
+  {
+    "topic": "variables",
+    "text": "What value does `x` hold after running: `x = 5; x = x + 3`?",
+    "options": ["5", "3", "8", "53"],
+    "correct_index": 2,
+    "feedback": "`x` starts at 5, then `x + 3` evaluates to 8 and is assigned back to `x`, so `x` is 8."
+  },
+  {
+    "topic": "variables",
+    "text": "Which statement correctly swaps the values of `a` and `b` in Python?",
+    "options": ["a = b", "a, b = b, a", "swap(a, b)", "a == b, b == a"],
+    "correct_index": 1,
+    "feedback": "Python supports tuple unpacking, so `a, b = b, a` swaps both values in a single line without needing a temporary variable."
+  },
+  {
+    "topic": "variables",
+    "text": "What does the following print? `name = 'Alice'; print(name)`",
+    "options": ["name", "'Alice'", "Alice", "Error"],
+    "correct_index": 2,
+    "feedback": "`print(name)` outputs the value stored in `name`, which is `Alice` (without quotes)."
+  },
+  {
+    "topic": "data_types",
+    "text": "What is the data type of the value `3.14` in Python?",
+    "options": ["int", "str", "float", "bool"],
+    "correct_index": 2,
+    "feedback": "Numbers with a decimal point are floats in Python. `3.14` is a `float`."
+  },
+  {
+    "topic": "data_types",
+    "text": "What does `type(True)` return in Python?",
+    "options": ["<class 'int'>", "<class 'str'>", "<class 'bool'>", "<class 'NoneType'>"],
+    "correct_index": 2,
+    "feedback": "`True` and `False` are boolean values. Their type is `bool`."
+  },
+  {
+    "topic": "data_types",
+    "text": "Which of these is a string in Python?",
+    "options": ["42", "3.14", "True", "\"hello\""],
+    "correct_index": 3,
+    "feedback": "Strings are sequences of characters enclosed in quotes. `\"hello\"` is a string; the others are int, float, and bool."
+  },
+  {
+    "topic": "data_types",
+    "text": "What is the result of `int(\"7\") + 2`?",
+    "options": ["\"72\"", "72", "9", "Error"],
+    "correct_index": 2,
+    "feedback": "`int(\"7\")` converts the string `\"7\"` to the integer `7`. Adding `2` gives `9`."
+  },
+  {
+    "topic": "conditions",
+    "text": "What will the following print if `x = 10`?\n```\nif x > 5:\n    print('big')\nelse:\n    print('small')\n```",
+    "options": ["small", "big", "10", "Nothing"],
+    "correct_index": 1,
+    "feedback": "Since `10 > 5` is `True`, the `if` branch runs and prints `big`."
+  },
+  {
+    "topic": "conditions",
+    "text": "Which comparison operator checks whether two values are NOT equal in Python?",
+    "options": ["==", "=>", "!=", "<>"],
+    "correct_index": 2,
+    "feedback": "`!=` is the 'not equal' operator in Python. `==` checks equality, and `<>` is not valid Python 3 syntax."
+  },
+  {
+    "topic": "conditions",
+    "text": "What keyword is used to add a second condition check after an `if` in Python?",
+    "options": ["else if", "elsif", "elif", "elseif"],
+    "correct_index": 2,
+    "feedback": "Python uses `elif` (short for 'else if') to chain additional condition checks."
+  },
+  {
+    "topic": "conditions",
+    "text": "What is the result of this expression: `5 > 3 and 2 < 1`?",
+    "options": ["True", "False", "None", "Error"],
+    "correct_index": 1,
+    "feedback": "`5 > 3` is `True` but `2 < 1` is `False`. Because `and` requires both sides to be `True`, the result is `False`."
+  },
+  {
+    "topic": "loops",
+    "text": "How many times does this loop print? `for i in range(3): print(i)`",
+    "options": ["2", "3", "4", "1"],
+    "correct_index": 1,
+    "feedback": "`range(3)` generates the values 0, 1, 2 — three values in total — so the loop runs 3 times."
+  },
+  {
+    "topic": "loops",
+    "text": "Which keyword immediately exits a loop in Python?",
+    "options": ["exit", "stop", "break", "pass"],
+    "correct_index": 2,
+    "feedback": "`break` terminates the innermost loop immediately, skipping any remaining iterations."
+  },
+  {
+    "topic": "loops",
+    "text": "What does `continue` do inside a loop?",
+    "options": [
+      "Exits the loop entirely",
+      "Skips the rest of the current iteration and moves to the next",
+      "Repeats the current iteration",
+      "Pauses the loop"
+    ],
+    "correct_index": 1,
+    "feedback": "`continue` skips the remaining code in the current iteration and jumps to the next iteration of the loop."
+  },
+  {
+    "topic": "loops",
+    "text": "What will this code print?\n```\nx = 0\nwhile x < 3:\n    x += 1\nprint(x)\n```",
+    "options": ["0", "2", "3", "4"],
+    "correct_index": 2,
+    "feedback": "The loop increments `x` from 0 to 1, 2, 3. When `x` reaches 3, the condition `x < 3` becomes `False` and the loop stops. `print(x)` outputs `3`."
+  },
+  {
+    "topic": "functions",
+    "text": "Which keyword is used to define a function in Python?",
+    "options": ["func", "define", "def", "function"],
+    "correct_index": 2,
+    "feedback": "In Python, functions are defined using the `def` keyword followed by the function name and parentheses."
+  },
+  {
+    "topic": "functions",
+    "text": "What does a function return when it has no `return` statement?",
+    "options": ["0", "False", "None", "Error"],
+    "correct_index": 2,
+    "feedback": "If a function has no `return` statement (or just `return` with no value), Python implicitly returns `None`."
+  },
+  {
+    "topic": "functions",
+    "text": "What is the output of this code?\n```\ndef greet(name):\n    return 'Hello, ' + name\nprint(greet('Sam'))\n```",
+    "options": ["Hello, name", "greet('Sam')", "Hello, Sam", "Error"],
+    "correct_index": 2,
+    "feedback": "The function concatenates `'Hello, '` with the argument `'Sam'`, returning `'Hello, Sam'`, which `print` then outputs."
+  },
+  {
+    "topic": "functions",
+    "text": "Which of the following correctly calls a function named `add` with arguments 3 and 4?",
+    "options": ["add[3, 4]", "add{3, 4}", "add(3, 4)", "add 3, 4"],
+    "correct_index": 2,
+    "feedback": "Functions are called with parentheses containing the arguments: `add(3, 4)`."
+  },
+  {
+    "topic": "lists",
+    "text": "How do you access the first element of a list named `items`?",
+    "options": ["items[1]", "items(0)", "items[0]", "items.first()"],
+    "correct_index": 2,
+    "feedback": "Python uses zero-based indexing, so `items[0]` retrieves the first element of the list."
+  },
+  {
+    "topic": "lists",
+    "text": "Which method adds an element to the end of a list?",
+    "options": ["add()", "insert()", "push()", "append()"],
+    "correct_index": 3,
+    "feedback": "`list.append(value)` adds `value` to the end of the list. `insert()` adds at a specific index."
+  },
+  {
+    "topic": "lists",
+    "text": "What is the length of this list: `[1, 2, 3, 4, 5]`?",
+    "options": ["4", "5", "6", "0"],
+    "correct_index": 1,
+    "feedback": "The list contains 5 elements: 1, 2, 3, 4, 5. `len([1, 2, 3, 4, 5])` returns `5`."
+  },
+  {
+    "topic": "lists",
+    "text": "What does `my_list[-1]` return?",
+    "options": [
+      "The first element",
+      "An error",
+      "The last element",
+      "The second-to-last element"
+    ],
+    "correct_index": 2,
+    "feedback": "Negative indices count from the end of the list. `-1` refers to the last element, `-2` to the second-to-last, and so on."
+  }
+]

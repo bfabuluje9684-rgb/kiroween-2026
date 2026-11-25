@@ -26,11 +26,11 @@ Implement the FrankySense Halloween quiz game as a Python/Flask backend paired w
   - _Requirements: 9.4, 11.1, 11.2_
 
 - [ ] 2. Question bank JSON and loader
-  - [ ] 2.1 Write `backend/question_bank.json` with at least 20 hand-written questions: at least 3 per topic (`variables`, `data_types`, `conditions`, `loops`, `functions`, `lists`); each entry must have keys `text`, `options` (array of 4 strings), `correct_index` (integer 0–3), `feedback` (non-empty string), and `topic`
+  - [x] 2.1 Write `backend/question_bank.json` with at least 20 hand-written questions: at least 3 per topic (`variables`, `data_types`, `conditions`, `loops`, `functions`, `lists`); each entry must have keys `text`, `options` (array of 4 strings), `correct_index` (integer 0–3), `feedback` (non-empty string), and `topic`
     - _Requirements: 12.1, 12.4_
-  - [ ] 2.2 Write `backend/question_bank.py` that loads `question_bank.json` at import time, validates that every entry has exactly 4 options and a valid `correct_index`, and exposes a `get_bank_questions(topic=None)` function that returns a filtered or unfiltered copy of the list; raise a startup error if the bank has fewer than 20 entries or any topic has fewer than 3 entries
+  - [ ] 2.2 Write `backend/question_bank.py` that loads `question_bank.json` at import time, validates that every entry has exactly 4 options (all distinct strings) and a valid `correct_index`, and exposes a `get_bank_questions(topic=None)` function that returns a filtered or unfiltered copy of the list; raise a startup error if the bank has fewer than 20 entries or any topic has fewer than 3 entries
     - _Requirements: 12.1, 12.4_
-  - [ ]* 2.3 Write unit tests for `question_bank.py` in `backend/tests/test_question_bank.py`: verify bank loads ≥ 20 questions; each topic has ≥ 3 entries; every entry has exactly 4 options and a valid `correct_index`
+  - [ ]* 2.3 Write unit tests for `question_bank.py` in `backend/tests/test_question_bank.py`: verify bank loads ≥ 20 questions; each topic has ≥ 3 entries; every entry has exactly 4 options (all distinct strings) and a valid `correct_index`
     - _Requirements: 12.1, 12.4_
 
 - [ ] 3. Session manager
@@ -46,7 +46,7 @@ Implement the FrankySense Halloween quiz game as a Python/Flask backend paired w
     - _Requirements: 8.1, 8.5_
 
 - [ ] 5. Question generator
-  - [ ] 5.1 Write `backend/question_generator.py` implementing Algorithm 1: build 10 topic slots (one per topic guaranteed, four random extras capped at 3 per topic, then shuffled); submit all slots to `ThreadPoolExecutor(max_workers=10)` using `executor.submit()`; call `concurrent.futures.wait(futures, timeout=15)` then `executor.shutdown(wait=False, cancel_futures=True)`; each worker calls `ai_client.generate_question`, validates `len(options)==4` and `correct_index in 0..3`, retries once on failure, marks as "needs bank fallback" on second failure or timeout; run deduplication pass (Algorithm 1 step 5) replacing duplicate texts with unused bank questions of the same topic first; return a list of 10 `Question` dataclass instances
+  - [ ] 5.1 Write `backend/question_generator.py` implementing Algorithm 1: build 10 topic slots (one per topic guaranteed, four random extras capped at 3 per topic, then shuffled); submit all slots to `ThreadPoolExecutor(max_workers=10)` using `executor.submit()`; call `concurrent.futures.wait(futures, timeout=15)` then `executor.shutdown(wait=False, cancel_futures=True)`; each worker calls `ai_client.generate_question`, validates `len(options)==4`, all four options are distinct strings, and `correct_index in 0..3`, retries once on failure, marks as "needs bank fallback" on second failure or timeout; after validation passes, shuffle the four options randomly and update `correct_index` so it still points at the same answer text; apply the same shuffle to every bank fallback question drawn in step 4; run deduplication pass (Algorithm 1 step 5) replacing duplicate texts with unused bank questions of the same topic first; return a list of 10 `Question` dataclass instances
     - _Requirements: 1.3, 1.4, 7.1, 7.2, 8.2, 8.3, 8.5, 13.1, 13.3, 13.4, 13.5_
   - [ ] 5.2 Write property test for question generator — Property 6: No duplicate questions
     - `# Feature: frankysense-game, Property 6: No duplicate questions per session`
@@ -56,8 +56,13 @@ Implement the FrankySense Halloween quiz game as a Python/Flask backend paired w
     - `# Feature: frankysense-game, Property 8: Every session covers all six topics`
     - Use Hypothesis with mocked AI responses; assert the set of `topic` values in the returned list equals `{"variables", "data_types", "conditions", "loops", "functions", "lists"}`
     - **Validates: Requirements 7.1, 7.2**
-  - [ ]* 5.4 Write unit tests for `question_generator.py` in `backend/tests/test_question_generator.py`: slot that times out is replaced with a bank question; slot that fails validation twice is replaced with a bank question; dedup removes identical question texts
+  - [ ] 5.4 Write unit tests for `question_generator.py` in `backend/tests/test_question_generator.py`: slot that times out is replaced with a bank question; slot that fails validation twice is replaced with a bank question; dedup removes identical question texts; after shuffling, the option at `correct_index` equals the original correct answer text; drawing the same bank question repeatedly never changes the bank's stored options or correct_index
     - _Requirements: 8.3, 8.5, 13.4_
+
+  - [ ] 5.5 Write property test for question generator — Property 13: Shuffle produces a valid permutation and preserves the correct answer
+    - `# Feature: frankysense-game, Property 13: Shuffle produces a valid permutation and preserves the correct answer`
+    - Use Hypothesis to generate random 4-option questions with distinct options and a valid `correct_index`; apply the shuffle-and-reindex step; assert the new options list is a permutation of the original four options; assert the option at the new `correct_index` equals the option at the old `correct_index`; assert the original options list and `correct_index` are unchanged
+    - **Validates: Requirements 8.2, 12.4**
 
 - [ ] 6. Answer validator
   - [ ] 6.1 Write `backend/answer_validator.py` implementing Algorithm 2 (the pure validation and state-mutation logic, not the HTTP layer); the main entry point is `validate_answer(session, question_index, selected_option)`; accept `session` and `selected_option`; validate `selected_option` is an integer 0–3; acquire `session.lock`; check session state and question index; mark answered; compute result; update `correct_count`, `wrong_count`, `franky_stage`, `missed_topics`; update `session.state` to `"game_over"` or `"win"` or advance `current_index`; update `session.last_activity`; release lock; return a result dict containing `result`, `feedback` (with fallback), `franky_stage`, `correct_count`, `wrong_count`, `missed_topics`, `session_state`, and `next_question` (or `null`); `correct_index` is never included
@@ -185,7 +190,7 @@ Implement the FrankySense Halloween quiz game as a Python/Flask backend paired w
 
 ## Notes
 
-- Property-based tests (Properties 1–12) are required and must pass before moving on. Unit tests are marked `*` optional and can be skipped for a faster MVP.
+- Property-based tests (Properties 1–13) are required and must pass before moving on. Unit tests marked `*` are optional and can be skipped for a faster MVP.
 - The `correct_index` field must **never** appear in any API response to the frontend; `answer_validator.py` is the only module that reads it.
 - All six canonical topic keys (`variables`, `data_types`, `conditions`, `loops`, `functions`, `lists`) must be used consistently across the backend, API responses, and frontend components. Only `WeakSpotsSummary.jsx` converts them to display names.
 - The session `threading.Lock` hierarchy has two levels: a module-level lock in `session_manager.py` guards the `sessions` dict, and a per-session `session.lock` in `answer_validator.py` guards state mutations. Never acquire the per-session lock while holding the module-level lock.
@@ -202,7 +207,7 @@ Implement the FrankySense Halloween quiz game as a Python/Flask backend paired w
     { "id": 2, "tasks": ["2.2"] },
     { "id": 3, "tasks": ["2.3", "4.1"] },
     { "id": 4, "tasks": ["3.2", "4.2", "5.1"] },
-    { "id": 5, "tasks": ["5.2", "5.3", "5.4", "6.1"] },
+    { "id": 5, "tasks": ["5.2", "5.3", "5.4", "5.5", "6.1"] },
     { "id": 6, "tasks": ["6.2", "6.3", "6.4", "6.5", "6.6", "6.7", "6.8", "6.9", "6.10"] },
     { "id": 7, "tasks": ["7"] },
     { "id": 8, "tasks": ["8.1"] },
